@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingClass,MissingConstraints" />
+    <LinearLayout
+        android:id="@+id/inputNameLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarMain"
+        app:layout_constraintVertical_bias="0.01">
+
+        <TextView
+            android:id="@+id/inputNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/input_title_left"
+            android:text="@string/input_name"
+            android:textSize="@dimen/input_text_size" />
+
+        <EditText
+            android:id="@+id/inputNameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/input_meaning_left"
+            android:layout_marginRight="@dimen/input_meaning_right"
+            android:hint="@string/input_name_hint"
+            android:textSize="@dimen/input_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inputAgeLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputNameLL"
+        app:layout_constraintVertical_bias="0.01">
+
+        <TextView
+            android:id="@+id/inputAgeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/input_title_left"
+            android:text="@string/input_age"
+            android:textSize="@dimen/input_text_size" />
+
+        <EditText
+            android:id="@+id/inputAgeET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/input_meaning_left"
+            android:hint="@string/input_age_hint"
+            android:textSize="@dimen/input_text_size" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/saveBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:textSize="@dimen/main_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputAgeLL"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <ListView
+        android:id="@+id/usersViewLV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/saveBTN"
+        tools:layout_editor_absoluteX="-204dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
