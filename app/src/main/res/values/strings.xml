@@ -9,5 +9,7 @@
     <string name="save">Сохранить</string>
     <string name="error_null">Одно или оба поля не заполнены</string>
     <string name="error_of_age">Некорректно введён возраст</string>
-    <string name="error_not_digit">Вводите только числовые значения</string>
+    <string name="error_not_digit">Вводите только числовые значения в поле "возраст"</string>
+    <string name="delete_confirmation">Удалить запись?</string>
+    <string name="delete_confirmation_yes">да</string>
 </resources>

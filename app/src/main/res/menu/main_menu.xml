@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/exitMainMenu"
-        android:orderInCategory="100"
+        android:orderInCategory="50"
         android:title="@string/exit_for_menu"
         app:showAsAction="never"
         tools:ignore="MissingPrefix" />

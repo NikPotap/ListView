@@ -1,24 +1,24 @@
 package com.example.listview
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 import android.widget.ArrayAdapter as ArrayAdapter
-import android.content.Context
-import android.content.Intent
 import android.widget.AdapterView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var toolbarMain: Toolbar
@@ -48,39 +48,51 @@ class MainActivity : AppCompatActivity() {
         usersViewLV = findViewById(R.id.usersViewLV)
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, usersList)
         usersViewLV.adapter = adapter
-        usersViewLV.onItemLongClickListener = AdapterView.OnItemLongClickListener { parent, v, position, id ->
-            val user = adapter.getItem(position)
-            adapter.remove(user)
-        }
+        usersViewLV.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, v, position, id ->
+                val alert = Snackbar
+                    .make(
+                        parent,
+                        resources.getString(R.string.delete_confirmation),
+                        Snackbar.LENGTH_LONG
+                    )
+                    .setAction(resources.getString(R.string.delete_confirmation_yes)) {
+                        val user = adapter.getItem(position)
+                        adapter.remove(user)
+                    }
+                alert.setActionTextColor(Color.RED).show()
+            }
 
         saveBTN = findViewById(R.id.saveBTN)
-        saveBTN.setOnClickListener {
+        saveBTN.setOnClickListener { View ->
+            val imm =
+                View.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(View.windowToken, 0)
             if (inputNameET.text.isEmpty() || inputAgeET.text.isEmpty()) {
                 Snackbar.make(View, resources.getString(R.string.error_null), Snackbar.LENGTH_SHORT)
-                    .show()
                 return@setOnClickListener
             }
             if (inputAgeET.text.toString()
-                    .toInt() == null) {
+                    .toIntOrNull() == null
+            ) {
                 Snackbar.make(
                     View,
                     resources.getString(R.string.error_not_digit),
                     Snackbar.LENGTH_SHORT
                 )
-                    .show()
                 return@setOnClickListener
             }
             val age = inputAgeET.text.toString().toInt()
+            val name = inputNameET.text.toString()
             if (age < 1 || age > 100) {
                 Snackbar.make(
                     View,
                     resources.getString(R.string.error_of_age),
                     Snackbar.LENGTH_SHORT
                 )
-                    .show()
                 return@setOnClickListener
             }
-            usersList.add(User(inputNameET.text.toString(),inputAgeET.text.toString().toInt()))
+            usersList.add(User(name, age))
             adapter.notifyDataSetChanged()
             inputNameET.text.clear()
             inputAgeET.text.clear()
@@ -98,4 +110,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class User(val name: String, val age: Int)
+class User(val name: String, val age: Int) {
+    override fun toString() = "$name, возраст - $age."
+}
