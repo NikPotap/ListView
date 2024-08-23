@@ -1,15 +1,18 @@
 <resources>
-    <string name="app_name">Каталог пользователей</string>
-    <string name="exit_for_menu">Закрыть</string>
-    <string name="closed">Приложение закрыто</string>
+    <string name="app_name">Каталог пользователей.</string>
+    <string name="exit_for_menu">Закрыть.</string>
+    <string name="closed">Приложение закрыто.</string>
     <string name="input_name">Введите имя:</string>
     <string name="input_age">Введите возраст:</string>
     <string name="input_name_hint">имя</string>
     <string name="input_age_hint">возраст</string>
-    <string name="save">Сохранить</string>
-    <string name="error_null">Одно или оба поля не заполнены</string>
-    <string name="error_of_age">Некорректно введён возраст</string>
-    <string name="error_not_digit">Вводите только числовые значения в поле "возраст"</string>
+    <string name="save">Сохранить.</string>
+    <string name="error_null">Одно или оба поля не заполнены.</string>
+    <string name="error_of_age">Некорректно введён возраст.</string>
+    <string name="error_not_digit">Вводите только числовые значения в поле "возраст".</string>
     <string name="delete_confirmation">Удалить запись?</string>
     <string name="delete_confirmation_yes">да</string>
+    <string name="delete_confirmation_no">нет</string>
+    <string name="completed">Запись удалена.</string>
+    <string name="alert">Внимание!</string>
 </resources>

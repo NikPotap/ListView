@@ -2,23 +2,19 @@ package com.example.listview
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
-import android.widget.ArrayAdapter as ArrayAdapter
-import android.widget.AdapterView
-import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
     private lateinit var toolbarMain: Toolbar
@@ -49,19 +45,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, usersList)
         usersViewLV.adapter = adapter
         usersViewLV.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, v, position, id ->
-                val alert = Snackbar
-                    .make(
-                        parent,
-                        resources.getString(R.string.delete_confirmation),
-                        Snackbar.LENGTH_LONG
-                    )
-                    .setAction(resources.getString(R.string.delete_confirmation_yes)) {
-                        val user = adapter.getItem(position)
-                        adapter.remove(user)
-                    }
-                alert.setActionTextColor(Color.RED).show()
-            }
+            DeleteAlert.makeDialog(this, adapter)
 
         saveBTN = findViewById(R.id.saveBTN)
         saveBTN.setOnClickListener { View ->
