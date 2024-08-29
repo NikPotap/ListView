@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.snackbar.Snackbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.serializableparcelable.testOfData
 
 class MainActivity : AppCompatActivity() {
     private lateinit var toolbarMain: Toolbar
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var inputAgeET: EditText
     private lateinit var saveBTN: Button
     private lateinit var usersViewLV: ListView
-    private val usersList: MutableList<User> = mutableListOf()
+    lateinit var userViewModel: UserViewModel
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,46 +43,40 @@ class MainActivity : AppCompatActivity() {
         inputNameET = findViewById(R.id.inputNameET)
         inputAgeET = findViewById(R.id.inputAgeET)
 
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+
         usersViewLV = findViewById(R.id.usersViewLV)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, usersList)
+        val adapter =
+            ArrayAdapter(this, android.R.layout.simple_list_item_1, userViewModel.usersList)
         usersViewLV.adapter = adapter
-        usersViewLV.onItemClickListener =
-            DeleteAlert.makeDialog(this, adapter)
+        usersViewLV.onItemClickListener {
+            userViewModel.delUser(this, adapter)
+        }
 
         saveBTN = findViewById(R.id.saveBTN)
         saveBTN.setOnClickListener { View ->
             val imm =
                 View.context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(View.windowToken, 0)
-            if (inputNameET.text.isEmpty() || inputAgeET.text.isEmpty()) {
-                Snackbar.make(View, resources.getString(R.string.error_null), Snackbar.LENGTH_SHORT)
-                return@setOnClickListener
-            }
-            if (inputAgeET.text.toString()
-                    .toIntOrNull() == null
+            val name = inputNameET.text.toString()
+            if (testOfData(
+                    this,
+                    name,
+                    inputAgeET.text.toString()
+                ) == false
             ) {
-                Snackbar.make(
-                    View,
-                    resources.getString(R.string.error_not_digit),
-                    Snackbar.LENGTH_SHORT
-                )
                 return@setOnClickListener
             }
             val age = inputAgeET.text.toString().toInt()
-            val name = inputNameET.text.toString()
-            if (age < 1 || age > 100) {
-                Snackbar.make(
-                    View,
-                    resources.getString(R.string.error_of_age),
-                    Snackbar.LENGTH_SHORT
-                )
-                return@setOnClickListener
-            }
-            usersList.add(User(name, age))
+
+            userViewModel.addUser(name, age)
             adapter.notifyDataSetChanged()
             inputNameET.text.clear()
             inputAgeET.text.clear()
         }
+        userViewModel.actualList.observe(this, Observer {
+
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
