@@ -8,7 +8,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class DeleteAlert {
     companion object {
-        fun makeDialog(context: Context, adapter: ArrayAdapter<User>) =
+        fun makeDialog(context: Context, adapter: ArrayAdapter<User>, obj: UserViewModel) =
             AdapterView.OnItemClickListener { parent, v, position, id ->
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle(context.resources.getString(R.string.alert))
@@ -19,10 +19,11 @@ class DeleteAlert {
                     }
                     .setPositiveButton(context.resources.getString(R.string.delete_confirmation_yes)) { dialog, which ->
                         val user = adapter.getItem(position)
-                        adapter.remove(user)
+                        obj.usersList.remove(user)
+                        obj.actualList.value = obj.usersList
                         Snackbar.make(
                             parent,
-                            context.resources.getString(R.string.delete_confirmation),
+                            context.resources.getString(R.string.delete_completed),
                             Snackbar.LENGTH_LONG
                         ).show()
                     }.create()

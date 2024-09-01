@@ -13,6 +13,6 @@
     <string name="delete_confirmation">Удалить запись?</string>
     <string name="delete_confirmation_yes">да</string>
     <string name="delete_confirmation_no">нет</string>
-    <string name="completed">Запись удалена</string>
+    <string name="delete_completed">Запись удалена</string>
     <string name="alert">Внимание!</string>
 </resources>

@@ -45,13 +45,15 @@ class MainActivity : AppCompatActivity() {
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
-        usersViewLV = findViewById(R.id.usersViewLV)
         val adapter =
             ArrayAdapter(this, android.R.layout.simple_list_item_1, userViewModel.usersList)
-        usersViewLV.adapter = adapter
-        usersViewLV.onItemClickListener {
-            userViewModel.delUser(this, adapter)
-        }
+
+        userViewModel.actualList.observe(this, Observer{
+            usersViewLV.adapter = adapter
+        })
+
+        usersViewLV = findViewById(R.id.usersViewLV)
+        usersViewLV.onItemClickListener = DeleteAlert.makeDialog(this, adapter, userViewModel)
 
         saveBTN = findViewById(R.id.saveBTN)
         saveBTN.setOnClickListener { View ->
@@ -68,15 +70,11 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val age = inputAgeET.text.toString().toInt()
-
             userViewModel.addUser(name, age)
-            adapter.notifyDataSetChanged()
+            userViewModel.actualList.value = userViewModel.usersList
             inputNameET.text.clear()
             inputAgeET.text.clear()
         }
-        userViewModel.actualList.observe(this, Observer {
-
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
